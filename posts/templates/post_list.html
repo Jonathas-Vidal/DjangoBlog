@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista Postagens{% endblock %}
+
+{% block content %}
+	<h1>Todos Posts</h1>
+	<div class="row row-cols-1 row-cols-md-3 g-4">
+		{% for post in posts %} 
+		<div class="col">
+			<div class="card h-100 text-bg-light">
+				{% if post.image %}
+				<img src="{{post.image.url}}" class="card-img-top" alt="{{post.title}}">
+    			{% else %}
+       				<p>Sem imagem disponível.</p>
+    			{% endif %}
+				<div class="card-body">
+					<p class="card-text">{{post.title}}</p>
+					<a class="btn btn-info" href="{% url 'post-detail' post.id %}">Ver</a>
+				</div>
+			</div> 
+		</div>
+		{% endfor %} 
+	</div>	 
+{% endblock content %}
