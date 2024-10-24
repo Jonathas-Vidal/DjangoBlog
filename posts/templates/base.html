@@ -23,8 +23,8 @@
               <li><a href="{%url 'post-create' %}" class="nav-link px-2 text-white">Criar Post</a></li>
             </ul>
     
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-              <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Buscar..." aria-label="Search">
+            <form method="GET" action="{% url 'post-search' %}" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+              <input type="search" name="q" value="{{ request.GET.q }}"class="form-control form-control-dark text-bg-dark" placeholder="Buscar..." aria-label="Search">
             </form>
     
             <div class="text-end">

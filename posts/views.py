@@ -11,6 +11,28 @@ class PostListView(ListView):
     template_name = 'post_list.html'
     context_object_name = 'posts'
 
+class PostSearchView(ListView):
+    model = Post
+    template_name = 'post_list.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            posts = Post.objects.filter(title__icontains=query)
+            if not posts.exists():
+                messages.error(self.request, 'Nenhuma postagem encontrada.')
+            return posts
+        return Post.objects.all()
+    
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'post_detail.html'
+    context_object_name = 'post'
+
+    def get_object(self):
+        return Post.objects.get(pk=self.kwargs['pk'])
+
 class PostCreateView(CreateView):
     model = Post
     form_class = PostForm
@@ -20,15 +42,6 @@ class PostCreateView(CreateView):
     def form_valid(self, form):
         messages.success(self.request, 'O post foi criado com sucesso')
         return super().form_valid(form)
-
-class PostDetailView(DetailView):
-    model = Post
-    template_name = 'post_detail.html'
-    context_object_name = 'post'
-
-    def get_object(self):
-        return Post.objects.get(pk=self.kwargs['pk'])
-
 
 class PostUpdateView(UpdateView):
     model = Post
