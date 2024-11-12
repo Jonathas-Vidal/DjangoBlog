@@ -16,6 +16,18 @@ class PostListView(ListView):
     template_name = 'post_list.html'
     context_object_name = 'posts'
 
+    def get_queryset(self):
+        return Post.objects.order_by('-create_at')
+
+@method_decorator(login_required, name='dispatch')
+class MyPostListView(ListView):
+    model = Post
+    template_name = 'post_list.html'
+    context_object_name='posts'
+
+    def get_queryset(self):
+        return Post.objects.filter(author=self.request.user).order_by('-create_at')
+
 class PostSearchView(ListView):
     model = Post
     template_name = 'post_list.html'
