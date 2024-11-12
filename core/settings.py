@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'posts',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -109,6 +110,10 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+LOGIN_REDIRECT_URL = 'post-list'  # Redireciona após o login
+LOGOUT_REDIRECT_URL = 'post-list'  # Redireciona após o logout
+LOGIN_URL = 'login'
 
 
 # Internationalization

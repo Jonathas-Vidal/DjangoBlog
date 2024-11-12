@@ -1,10 +1,15 @@
-from django.shortcuts import get_object_or_404, render
+
 from posts.models import Post
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
 from posts.forms import PostForm
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+from .models import Post
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.http import HttpResponseForbidden
 
 class PostListView(ListView):
     model = Post
@@ -33,6 +38,7 @@ class PostDetailView(DetailView):
     def get_object(self):
         return Post.objects.get(pk=self.kwargs['pk'])
 
+@method_decorator(login_required, name='dispatch')
 class PostCreateView(CreateView):
     model = Post
     form_class = PostForm
@@ -40,21 +46,37 @@ class PostCreateView(CreateView):
     success_url = reverse_lazy('post-list')
 
     def form_valid(self, form):
+        form.instance.author = self.request.user
         messages.success(self.request, 'O post foi criado com sucesso')
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action'] = 'create'
+        return context
 
+@method_decorator(login_required, name='dispatch')
 class PostUpdateView(UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'post_form.html'
     context_object_name = 'form'
+    
     def get_success_url(self):
         return reverse_lazy('post-detail', args=[self.object.pk])
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['action'] = 'update'
+        return context
 
     def form_valid(self, form):
         messages.success(self.request, 'O post foi atualizado com sucesso')
         return super().form_valid(form)
 
+
+
+@method_decorator(login_required, name='dispatch')
 class PostDeleteView(DeleteView):
     model = Post
     template_name = 'post_delete.html'

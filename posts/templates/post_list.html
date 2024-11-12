@@ -1,24 +1,25 @@
 {% extends 'base.html' %}
 
-{% block title %}Lista Postagens{% endblock %}
+{% block title %}Blog | Posts{% endblock %}
 
 {% block content %}
 	<h1>Todos Posts</h1>
-	<div class="row row-cols-1 row-cols-md-3 g-4">
+	<div class="row g-4">
 		{% for post in posts %} 
-		<div class="col">
+		  <div class="col-12">
 			<div class="card h-100 text-bg-light">
-				{% if post.image %}
-				<img src="{{post.image.url}}" class="card-img-top" width="50%" height="200px" alt="{{post.title}}">
-    			{% else %}
-       				<p>Sem imagem disponível.</p>
-    			{% endif %}
-				<div class="card-body">
-					<p class="card-text">{{post.title}}</p>
-					<a class="btn btn-info" href="{% url 'post-detail' post.id %}">Ver</a>
-				</div>
+			  {% if post.image %}
+				<img src="{{ post.image.url }}" class="card-img-top" style="width: 100%; height: 100%;  object-fit: cover;" alt="{{ post.title }}">
+			  {% else %}
+				<p>Sem imagem disponível.</p>
+			  {% endif %}
+			  <div class="card-body">
+				<p>Criado por: {{ post.author.username }}</p>
+				<p class="card-text">{{ post.title }}</p>
+				<a class="btn btn-info" href="{% url 'post-detail' post.id %}">Ver</a>
+			  </div>
 			</div> 
-		</div>
+		  </div>
+	  </div>
 		{% endfor %} 
-	</div>	 
 {% endblock content %}

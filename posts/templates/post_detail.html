@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 
-{% block title %}Detalhes Postagem{% endblock %}
+{% block title %}Blog | Detalhes{% endblock %}
 
 {% block content %}
 <div class="text-center">
     <br>
-    <a class="btn btn-warning" href="{% url 'post-update' post.id %}">Atualizar</a>
-    <a class="btn btn-danger" href="{% url 'post-delete' post.id %}">Deletar</a>
+    {% if user.is_authenticated and user == post.author %}
+        <a class="btn btn-warning" href="{% url 'post-update' post.id %}">Atualizar</a>
+        <a class="btn btn-danger" href="{% url 'post-delete' post.id %}">Deletar</a>
+     {% endif %}
 
     <h1>Detalhes do Post: {{post.title}}</h1>
 
     <p>{{post.create_at}}</p> 
+
+    <p>Criado por: {{ post.author.username }}</p>
 
     {% if post.image %}
     <img src="{{post.image.url}}" width="25%" alt="{{post.title}}">

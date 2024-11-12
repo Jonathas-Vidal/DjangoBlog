@@ -1,0 +1,18 @@
+{%extends 'base.html'%}
+{%block content%}
+{% if user.is_authenticated %}
+
+<h1>Você já está logado.</h1>
+{% else %}
+<h2>Cadastre-se</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Cadastrar</button>
+</form>
+{%endif%}
+
+{%endblock%}
+
+
+
