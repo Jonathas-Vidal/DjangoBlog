@@ -1,3 +1,5 @@
+Esse projeto é um sistema de blog, desenvolvido utilizando: Framework Django (Python), HTML, CSS, Javascript e Bootstrap.
+
 Como executar o projeto?
 1 - Clonar repositório no git através do comando -> git clone https://github.com/Jonathas-Vidal/DjangoBlog
 2 - Criar um ambiente virtual (venv) -> (Certifique de estar na raiz, por exemplo C:Users\DjangoBlog) - python -m venv .venv
